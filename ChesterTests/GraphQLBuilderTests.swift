@@ -55,7 +55,8 @@ class GraphQLBuilderTests: XCTestCase {
   func testQueryArgs() throws {
     let query = GraphQLQuery {
       From("posts")
-      Arguments(Argument(key: "id", value: 4), Argument(key: "author", value: "Chester"))
+      
+      Arguments(KeyValueArgument(key: "id", value: 4), KeyValueArgument(key: "author", value: "Chester"))
       Fields("id", "title")
     }
 
@@ -68,8 +69,8 @@ class GraphQLBuilderTests: XCTestCase {
     let query = GraphQLQuery {
       From("posts")
       Arguments(
-        Argument(key: "id", value: 4),
-        Argument(key: "author", value: "\tIs this an \"emoji\"? 👻 \r\n(y\\n)Special\u{8}\u{c}\u{4}\u{1b}")
+        KeyValueArgument(key: "id", value: 4),
+        KeyValueArgument(key: "author", value: "\tIs this an \"emoji\"? 👻 \r\n(y\\n)Special\u{8}\u{c}\u{4}\u{1b}")
       )
       Fields("id", "title")
     }
@@ -83,8 +84,8 @@ class GraphQLBuilderTests: XCTestCase {
     let query = GraphQLQuery {
       From("posts")
       Arguments(
-        Argument(key: "id", value: 4),
-        Argument(key: "filter", value: [["author": ["Chester"]], ["author": "Iskander"], ["books": 1]])
+        KeyValueArgument(key: "id", value: 4),
+        KeyValueArgument(key: "filter", value: [["author": ["Chester"]], ["author": "Iskander"], ["books": 1]])
       )
       Fields("id", "title")
     }
@@ -127,7 +128,7 @@ class GraphQLBuilderTests: XCTestCase {
     let query = GraphQLQuery {
       From("search")
       Arguments(
-        Argument(key: "text", value: "an")
+        KeyValueArgument(key: "text", value: "an")
       )
       On("Human", "Droid")
       Fields("name")
@@ -142,7 +143,7 @@ class GraphQLBuilderTests: XCTestCase {
     let query = GraphQLQuery {
       From("search")
       Arguments(
-        Argument(key: "text", value: "an")
+        KeyValueArgument(key: "text", value: "an")
       )
       On("Human", "Droid")
         .withTypeName()

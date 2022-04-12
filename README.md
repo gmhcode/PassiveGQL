@@ -89,8 +89,42 @@ let search = QueryBuilder()
   .with(fields: "name")
   .build()
 ```
+Make a Where Clause query like this
+```
+      let query2 = try QueryBuilder()
+      .from("equipments")
+      .with(fields: "name")
+      .with(arguments:
+              WhereClauseArgument(key: "where", value:
+                                    WhereClauseArgument(key: "name", value:
+                                                          WhereClauseArgument(key: "isEqualTo", value: "SwarmNano (1)"))))
+
+      let q2String = try query2.build()
+      
+  // prints  q2String = "{\n  equipments(where: {name: {isEqualTo: \"SwarmNano (1)\"}}) {\n    name\n  }\n}"
+  
+    let jsonDict: [String: Any] = ["query": q2String]
+    
+//prints jsonDict =  1 element
+//    ▿ 0 : 2 elements
+//      - key : "query"
+//     - value : "{\n  equipments(where: {name: {isEqualTo: \"SwarmNano (1)\"}}) {\n    name\n  }\n}"
+    
+    let body = try! JSONSerialization.data(withJSONObject: jsonDict, options: [.fragmentsAllowed])
+    
+//   String(data: body, encoding: .utf8) 
+//   = Optional<String>
+//   - some : "{\"query\":\"{\\n  equipments(where: {name: {isEqualTo: \\\"SwarmNano (1)\\\"}}) {\\n    name\\n  }\\n}\"}"
+    
+    var request = URLRequest(url: URL(string: "http://localhost:8088/private/graphql")!)
+    request.httpBody = body
+    request.httpMethod = "POST"
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+```
+
 
 Check the included unit tests for further examples.
+
 
 ## Requirements
 
@@ -122,6 +156,8 @@ dependencies: [
     .package(url: "https://github.com/JanGorman/Chester.git", from: "0.14.0")
 ]
 ```
+
+
 
 ## Author
 

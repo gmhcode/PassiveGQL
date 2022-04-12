@@ -10,36 +10,93 @@ public enum QueryError: Error {
   case missingArguments
   case invalidState(String)
 }
+public protocol Argument {
+    var key: String {get }
+    var value: Any {get}
 
-public struct Argument {
+    func build() -> String
+}
+public struct WhereFilterArgument: Argument {
+  public let key: String = "where"
+  
+  public let value: Any
+  
+  public init(value: ObjectFilterArgument) {
+    self.value = value
+  }
+  
+  
+  public func build() -> String {
+    let realValue = value as! ObjectFilterArgument
+    return "\(key): \(realValue.build())" 
+  }
+}
 
-  let key: String
-  let value: Any
+public struct ObjectFilterArgument  {
+   public var key: String
+  ///WhereClauseArgument can be the value of another where clause argument
+   public var value: Any
+
+    public init(key: String, value: Any) {
+        self.key = key
+        self.value = value
+
+    }
+    public func build() -> String {
+        if let value = value as? ObjectFilterArgument, let _ = GraphQLEscapedString(key) {
+          //If the key is equal to "where", then this is the first argument so we dont need brackets around it.
+            return "{\(key): \(value.build())}"
+
+        }
+       else if let value = value as? String, let escaped = GraphQLEscapedString(value) {
+        return "{\(key): \(escaped)}"
+      } else if let value = value as? [String: Any] {
+        return "{\(key): \(GraphQLEscapedDictionary(value))}"
+      } else if let value = value as? [Any] {
+        return "{\(key): \(GraphQLEscapedArray(value))}"
+      }
+      return "{\(key): \(value)}"
+    }
+
+}
+public struct KeyValueArgument: Argument {
+
+public  let key: String
+public  let value: Any
 
   public init(key: String, value: Any) {
     self.key = key
     self.value = value
   }
 
-  func build() -> String {
+  public func build() -> String {
+    
+    
     if let value = value as? String, let escaped = GraphQLEscapedString(value) {
-      return "\(key): \(escaped)"
-    } else if let value = value as? [String: Any] {
-      return "\(key): \(GraphQLEscapedDictionary(value))"
-    } else if let value = value as? [Any] {
-      return "\(key): \(GraphQLEscapedArray(value))"
-    }
-    return "\(key): \(value)"
+    return "\(key): \(escaped)"
+  } else if let value = value as? [String: Any] {
+    return "\(key): \(GraphQLEscapedDictionary(value))"
+  } else if let value = value as? [Any] {
+    return "\(key): \(GraphQLEscapedArray(value))"
   }
+  return "\(key): \(value)"
+}
 
 }
 
 public final class QueryBuilder {
-
+  
+  public enum OperationType: String, Codable {
+   case query
+    case mutation
+  }
+  
+  let operationType: OperationType
   fileprivate var queries: [Query]
   
-  public init() {
+  public init(operationType: OperationType = .query) {
     queries = []
+    self.operationType = operationType
   }
 
   /// The collection to query
@@ -156,7 +213,14 @@ public final class QueryBuilder {
     try validateQuery()
     return try QueryStringBuilder(self).build()
   }
-
+  ///Set the URLRequest.httpBody to the data this function returns
+  public func convertToJsonData() throws -> Data {
+    let buildString = try build()
+    let jsonDict = [operationType.rawValue: buildString]
+    let jsonData = try JSONEncoder().encode(jsonDict)
+    return jsonData
+  }
+  
   private func validateQuery() throws {
     if queries.isEmpty {
       throw QueryError.missingCollection
@@ -183,7 +247,6 @@ private class QueryStringBuilder {
     }
     return queryString + "\n}"
   }
-  
   private func joinCollections(current: Int, count: Int) -> String {
     current == count - 1 ? "" : ",\n"
   }

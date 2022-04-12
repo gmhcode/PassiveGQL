@@ -157,9 +157,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 94AE4D671CA81B250079DD8D /* Build configuration list for PBXNativeTarget "Chester" */;
 			buildPhases = (
+				94AE4D501CA81B250079DD8D /* Headers */,
 				94AE4D4E1CA81B250079DD8D /* Sources */,
 				94AE4D4F1CA81B250079DD8D /* Frameworks */,
-				94AE4D501CA81B250079DD8D /* Headers */,
 				94AE4D511CA81B250079DD8D /* Resources */,
 			);
 			buildRules = (
@@ -201,7 +201,9 @@
 				TargetAttributes = {
 					94AE4D521CA81B250079DD8D = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = 8B3WZ78H4L;
 						LastSwiftMigration = 1020;
+						ProvisioningStyle = Manual;
 					};
 					94AE4D5C1CA81B250079DD8D = {
 						CreatedOnToolsVersion = 7.3;
@@ -410,16 +412,22 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 8B3WZ78H4L;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Chester/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.schnaub.Chester;
+				PRODUCT_BUNDLE_IDENTIFIER = com.passiveLogic.PassiveGQL;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -430,16 +438,22 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 8B3WZ78H4L;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Chester/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.schnaub.Chester;
+				PRODUCT_BUNDLE_IDENTIFIER = com.passiveLogic.PassiveGQL;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 5.0;
