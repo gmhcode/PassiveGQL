@@ -19,6 +19,7 @@ class QueryBuilderTests: XCTestCase {
   }
 
   func testQueryWithSubQuery() throws {
+
 //    let expectation = self.expectation(description: "Thing")
 //    let query2 = try QueryBuilder(operationType: .query)
 //      .from("equipments")
@@ -43,15 +44,15 @@ class QueryBuilderTests: XCTestCase {
 //
 //
 //
-//    URLSession.shared.dataTask(with: request) { data, response, error in
-//      do {
-//             let returni = try JSONSerialization.jsonObject(with: data!, options: [.allowFragments])
-//        print("returni \(returni)")
-//        expectation.fulfill()
-//      } catch {
-//print("error \(error)")
-//
-//      }
+    URLSession.shared.dataTask(with: request) { data, response, error in
+      do {
+             let returni = try JSONSerialization.jsonObject(with: data!, options: [.allowFragments])
+        print("returni \(returni)")
+        expectation.fulfill()
+      } catch {
+print("error \(error)")
+
+      }
 //
 //
 //    }.resume()

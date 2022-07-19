@@ -66,6 +66,50 @@ public struct SubQuery: Component {
 
 }
 
+//let query2 = try QueryBuilder(operationType: .query)
+//  .from("equipments")
+//  .with(fields: "name")
+//
+//  .with(arguments:
+//          WhereFilterArgument(value:
+//                                ObjectFilterArgument(key: "name", value:
+//                                                      ObjectFilterArgument(key: "isEqualTo", value: "SwarmNano (1)"))))
+//This code ^^^^
+//should look like VV
+
+//Where {
+//          TODO: Try to find a way to not have so many nested...
+//        FilterObject(key: "name") {
+//            FilterObject(key: "isEqualTo", value: "swarm nano 1")
+//        }
+//
+//}
+
+
+public struct Where: Component {
+
+    
+    public var string: String
+    
+    public var components: [String] = []
+    
+    public var arguments: [Argument]? = nil
+
+    public init(@GraphQLBuilder builder: () -> String) {
+    // YOLO
+    let query = builder().split(separator: "\n").dropFirst().dropLast().joined(separator: "\n")
+    self.string = query
+  }
+
+   
+//    public init(string: String, components: [String], arguments: [Argument]? = nil) {
+//        self.string = string
+//        self.components = components
+//        self.arguments = arguments
+//    }
+//
+    
+}
 public struct From: Component {
 
   public let string: String
